@@ -1,0 +1,23 @@
+   version: '3.8'
+
+   services:
+     backend:
+       build:
+         context: .
+         target: backend
+       ports:
+         - '3001:3001'
+       depends_on:
+         - redis
+
+     frontend:
+       build:
+         context: .
+         target: frontend
+       ports:
+         - '3000:80'
+
+     redis:
+       image: redis:alpine
+       ports:
+         - '6379:6379'
