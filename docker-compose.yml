@@ -1,23 +1,27 @@
-   version: '3.8'
+version: '3'
 
-   services:
-     backend:
-       build:
-         context: .
-         target: backend
-       ports:
-         - '3001:3001'
-       depends_on:
-         - redis
+services:
+  react-btc:
+    build:
+      context: ../react-btc
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../react-btc:/app
 
-     frontend:
-       build:
-         context: .
-         target: frontend
-       ports:
-         - '3000:80'
+  nest-simple-api:
+    build:
+      context: ../nest-simple-api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../nest-simple-api:/app
+    depends_on:
+      - redis
+    environment:
+      REDIS_HOST: redis
 
-     redis:
-       image: redis:alpine
-       ports:
-         - '6379:6379'
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
